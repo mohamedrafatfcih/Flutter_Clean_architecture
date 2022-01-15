@@ -1,2 +1,2 @@
-# Flutter_Clean_architecture
+# Flutter Clean architecture
 Clean architecture for building projects in flutter.
