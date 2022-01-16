@@ -1,27 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_mvvm/core/network/app_exceptions.dart';
+import 'package:flutter_mvvm/core/network/network_request.dart';
 
 class NetworkLayer {
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(BaseOptions(receiveTimeout: 5000, sendTimeout: 10000));
 
-  dynamic getReq(String url,
-      {Map<String, String>? headers, Map<String, String>? parameters}) async {
-    Response response = await _dio.get(url);
+  NetworkLayer() {}
+
+  dynamic get(NetworkReqest reqest) async {
+    Response response = await _dio.get(reqest.path);
     return _returnResponse(response);
   }
 
-  dynamic postReq(String url, dynamic data) async {
-    Response response = await _dio.post(url);
+  dynamic post(NetworkReqest request) async {
+    Response response = await _dio.post(request.path);
     return _returnResponse(response);
   }
-}
-
-String queryParameters(Map<String, String> params) {
-  if (params != null) {
-    final jsonString = Uri(queryParameters: params);
-    return '?${jsonString.query}';
-  }
-  return '';
 }
 
 dynamic _returnResponse(Response response) {
